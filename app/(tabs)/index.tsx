@@ -8,6 +8,7 @@ import { ThemedView } from "@/components/themed-view";
 
 import { getMovie } from "@/scripts/database";
 import { MOVIES } from "@/scripts/movieList";
+import { POSTERS } from "@/scripts/posterList";
 import { useState } from "react";
 
 export default function HomeScreen() {
@@ -15,6 +16,13 @@ export default function HomeScreen() {
   const [movie_list, setMovieList] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  function getPosterKey(title: string) {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^-|-$/g, "");
+  }
 
   async function search() {
     if (!title || movie_list.length >= 10) return;
@@ -98,19 +106,29 @@ export default function HomeScreen() {
         </ThemedText>
       )}
 
-      {movie_list.map((movie, index) => (
-        <ThemedView key={index} style={styles.movieRow}>
-          <ThemedText type="subtitle" style={styles.movieText}>
-            {movie.Title} by {movie.Director}, {movie.imdbRating}
-          </ThemedText>
-          <TouchableOpacity
-            style={styles.removeButton}
-            onPress={() => removeMovie(index)}
-          >
-            <ThemedText style={styles.removeButtonText}>✕</ThemedText>
-          </TouchableOpacity>
-        </ThemedView>
-      ))}
+      {movie_list.map((movie, index) => {
+        const posterKey = getPosterKey(movie.Title);
+        const poster = POSTERS[posterKey];
+        return (
+          <ThemedView key={index} style={styles.movieRow}>
+            {poster && (
+              <Image source={poster} style={styles.poster} contentFit="cover" />
+            )}
+            <ThemedText
+              type="subtitle"
+              style={[styles.movieText, !poster && styles.movieTextCentered]}
+            >
+              {movie.Title} by {movie.Director}, {movie.imdbRating}
+            </ThemedText>
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={() => removeMovie(index)}
+            >
+              <ThemedText style={styles.removeButtonText}>✕</ThemedText>
+            </TouchableOpacity>
+          </ThemedView>
+        );
+      })}
     </ParallaxScrollView>
   );
 }
@@ -172,8 +190,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 4,
   },
+  poster: {
+    width: 50,
+    height: 75,
+    borderRadius: 4,
+  },
   movieText: {
     flex: 1,
+    textAlign: "left",
+  },
+  movieTextCentered: {
     textAlign: "center",
   },
   removeButton: {

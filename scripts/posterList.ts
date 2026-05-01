@@ -2,7 +2,7 @@ export const POSTERS: Record<string, any> = {
   "10_things_i_hate_about_you": require("@/posters/10_things_i_hate_about_you.jpg"),
   amadeus: require("@/posters/amadeus.jpg"),
   american_psycho: require("@/posters/american_psycho.jpg"),
-  back_to_the_future_part_ii: require("@/posters/back_to_the_future_part_II"),
+  back_to_the_future_part_ii: require("@/posters/back_to_the_future_part_II.jpg"),
   back_to_the_future_part_iii: require("@/posters/back_to_the_future_part_III.jpg"),
   back_to_the_future: require("@/posters/back_to_the_future.jpg"),
   barbie: require("@/posters/barbie.jpg"),

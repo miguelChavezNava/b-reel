@@ -189,11 +189,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 4,
+    gap: 8,
   },
   poster: {
     width: 50,
     height: 75,
     borderRadius: 4,
+    marginRight: 12,
   },
   movieText: {
     flex: 1,

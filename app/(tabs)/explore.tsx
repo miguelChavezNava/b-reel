@@ -6,7 +6,7 @@ import { Fonts } from "@/constants/theme";
 import { POSTERS } from "@/scripts/posterList";
 import { Image } from "expo-image";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 type Movie = {
@@ -119,6 +119,19 @@ export default function TabTwoScreen() {
     return startMerge(initialMergeState(movie_list));
   });
   const [totalComparisons, setTotalComparisons] = useState<number>(0);
+  useEffect(() => {
+    if (movie_list.length === 0) {
+      setMergeState(initialMergeState([]));
+      return;
+    }
+    if (movie_list.length === 1) {
+      setMergeState({ left: [], right: [], merged: [], done: [movie_list] });
+      return;
+    }
+    setMergeState(startMerge(initialMergeState(movie_list)));
+    setTotalComparisons(0);
+  }, [movies]);
+
   const isDone = isSortingDone(mergeState);
 
   function pick(winner: Movie): void {

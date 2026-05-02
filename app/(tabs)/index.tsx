@@ -9,6 +9,7 @@ import { ThemedView } from "@/components/themed-view";
 import { getMovie } from "@/scripts/database";
 import { MOVIES } from "@/scripts/movieList";
 import { POSTERS } from "@/scripts/posterList";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 
 export default function HomeScreen() {
@@ -16,6 +17,7 @@ export default function HomeScreen() {
   const [movie_list, setMovieList] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   function getPosterKey(title: string) {
     return title
@@ -55,6 +57,17 @@ export default function HomeScreen() {
     setMovieList((prev) => prev.filter((_, i) => i !== index));
   }
 
+  async function clearAll() {
+    setMovieList([]);
+  }
+
+  function submitList() {
+    router.push({
+      pathname: "/explore",
+      params: { movies: JSON.stringify(movie_list) },
+    });
+  }
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -84,17 +97,37 @@ export default function HomeScreen() {
         />
       </ThemedView>
 
-      <ThemedView style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={search}>
-          <ThemedText>Search &nbsp;&nbsp;&nbsp; 🔍</ThemedText>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={randomize}
-          disabled={loading}
-        >
-          <ThemedText>{loading ? "Loading..." : "Random 🎲"}</ThemedText>
-        </TouchableOpacity>
+      <ThemedView style={styles.buttonWrapper}>
+        <ThemedView style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={search}>
+            <ThemedText>Search &nbsp;&nbsp;&nbsp; 🔍</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, loading && styles.buttonDisabled]}
+            onPress={randomize}
+            disabled={loading}
+          >
+            <ThemedText>{loading ? "Loading..." : "Random 🎲"}</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
+        {movie_list.length > 0 && (
+          <ThemedView style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={[styles.button, styles.clearButton]}
+              onPress={clearAll}
+            >
+              <ThemedText>Clear All 🗑️</ThemedText>
+            </TouchableOpacity>
+            {movie_list.length >= 10 && (
+              <TouchableOpacity
+                style={[styles.button, styles.submitButton]}
+                onPress={submitList}
+              >
+                <ThemedText>Rank List 🏆</ThemedText>
+              </TouchableOpacity>
+            )}
+          </ThemedView>
+        )}
       </ThemedView>
 
       {error && (
@@ -183,6 +216,16 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     opacity: 0.5,
+  },
+  clearButton: {
+    backgroundColor: "#ba0000",
+  },
+  buttonWrapper: {
+    flexDirection: "column",
+    gap: 8,
+  },
+  submitButton: {
+    backgroundColor: "#1a6b3a",
   },
   movieRow: {
     flexDirection: "row",

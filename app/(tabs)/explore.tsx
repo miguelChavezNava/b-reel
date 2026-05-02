@@ -40,31 +40,25 @@ function initialMergeState(movies: Movie[]): MergeState {
 
 function advance(state: MergeState, winner: Movie): MergeState {
   let { left, right, merged, done } = state;
+  const winnerIsLeft = left[0] === winner;
+  if (winnerIsLeft) {
+    left = left.slice(1);
+  } else {
+    right = right.slice(1);
+  }
   merged = [...merged, winner];
-  left = left[0]?.Title === winner.Title ? left.slice(1) : left;
-  right = right[0]?.Title === winner.Title ? right.slice(1) : right;
+
   if (left.length === 0 || right.length === 0) {
-    merged = [...merged, ...left, ...right];
+    const remainder = left.length > 0 ? left : right;
+    done = [...done, [...merged, ...remainder]];
     left = [];
     right = [];
-    done = [...done, merged];
     merged = [];
 
-    while (done.length >= 2) {
-      const newLeft = done[0];
-      const newRight = done[1];
-      done = done.slice(2);
-      if (newLeft.length === 0) {
-        done = [...done, newRight];
-      } else if (newRight.length === 0) {
-        done = [...done, newLeft];
-      } else {
-        left = newLeft;
-        right = newRight;
-        break;
-      }
-    }
+    const next = startMerge({ left, right, merged, done });
+    return next;
   }
+
   return { left, right, merged, done };
 }
 
@@ -90,19 +84,19 @@ function startMerge(state: MergeState): MergeState {
   let right: Movie[] = [];
 
   while (done.length >= 2) {
-    left = done[0];
-    right = done[1];
+    const candidateLeft = done[0];
+    const candidateRight = done[1];
     done = done.slice(2);
-    if (left.length > 0 && right.length > 0) {
+
+    if (candidateLeft.length > 0 && candidateRight.length > 0) {
+      left = candidateLeft;
+      right = candidateRight;
       break;
     }
-    if (left.length === 0) {
-      done = [...done, right];
-    } else {
-      done = [...done, left];
+    if (candidateLeft.length === 0 && candidateRight.length === 0) {
+      continue;
     }
-    left = [];
-    right = [];
+    done = [...done, candidateLeft.length > 0 ? candidateLeft : candidateRight];
   }
   return { ...state, left, right, done };
 }
@@ -120,15 +114,9 @@ export default function TabTwoScreen() {
   const [mergeState, setMergeState] = useState<MergeState>(() => {
     if (movie_list.length === 0) return initialMergeState([]);
     if (movie_list.length === 1) {
-      return {
-        left: [],
-        right: [],
-        merged: [],
-        done: [movie_list],
-      };
+      return { left: [], right: [], merged: [], done: [movie_list] };
     }
-    const initial = initialMergeState(movie_list);
-    return startMerge(initial);
+    return startMerge(initialMergeState(movie_list));
   });
   const [totalComparisons, setTotalComparisons] = useState<number>(0);
   const isDone = isSortingDone(mergeState);

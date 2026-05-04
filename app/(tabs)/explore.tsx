@@ -140,6 +140,11 @@ export default function TabTwoScreen() {
     setTotalComparisons((n) => n + 1);
   }
 
+  function reset() {
+    setMergeState(startMerge(initialMergeState(movie_list)));
+    setTotalComparisons(0);
+  }
+
   if (movie_list.length === 0) {
     return (
       <ParallaxScrollView
@@ -177,6 +182,8 @@ export default function TabTwoScreen() {
     );
   }
   if (isDone) {
+    const final_list = getFinalList(mergeState);
+
     return (
       <ParallaxScrollView
         headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
@@ -197,6 +204,36 @@ export default function TabTwoScreen() {
         <ThemedText type="subtitle" style={styles.doneText}>
           Ranking Complete in {totalComparisons} comparisons!
         </ThemedText>
+
+        <ThemedView style={styles.buttonWrapper}>
+          <ThemedView style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={reset}>
+              <ThemedText>Reset 🔄</ThemedText>
+            </TouchableOpacity>
+          </ThemedView>
+        </ThemedView>
+
+        {final_list.map((movie, index) => {
+          const posterKey = getPosterKey(movie.Title);
+          const poster = POSTERS[posterKey];
+          return (
+            <ThemedView key={index} style={styles.movieRow}>
+              {poster && (
+                <Image
+                  source={poster}
+                  style={styles.poster}
+                  contentFit="cover"
+                />
+              )}
+              <ThemedText
+                type="subtitle"
+                style={[styles.movieText, !poster && styles.movieTextCentered]}
+              >
+                {movie.Title} by {movie.Director}, {movie.imdbRating}
+              </ThemedText>
+            </ThemedView>
+          );
+        })}
       </ParallaxScrollView>
     );
   }
@@ -397,5 +434,40 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 12,
     opacity: 0.8,
+  },
+  movieRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 4,
+    gap: 8,
+  },
+  movieText: {
+    flex: 1,
+    textAlign: "left",
+  },
+  movieTextCentered: {
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  button: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 120,
+    borderColor: "white",
+    backgroundColor: "#1D3D47",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+  },
+  buttonWrapper: {
+    flexDirection: "column",
+    gap: 8,
   },
 });

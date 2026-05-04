@@ -100,7 +100,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.buttonWrapper}>
         <ThemedView style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={search}>
-            <ThemedText>Search &nbsp;&nbsp;&nbsp; 🔍</ThemedText>
+            <ThemedText>Search 🔍</ThemedText>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, loading && styles.buttonDisabled]}

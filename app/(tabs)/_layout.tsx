@@ -19,7 +19,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "List",
+          title: "List 🎬",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="list.bullet" color={color} />
           ),
@@ -28,7 +28,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Rank",
+          title: "Rank 🏆",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="trophy.fill" color={color} />
           ),

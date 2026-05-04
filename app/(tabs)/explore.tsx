@@ -148,13 +148,11 @@ export default function TabTwoScreen() {
   if (movie_list.length === 0) {
     return (
       <ParallaxScrollView
-        headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
+        headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
         headerImage={
-          <IconSymbol
-            size={310}
-            color="#808080"
-            name="trophy.fill"
-            style={styles.headerImage}
+          <Image
+            source={require("@/assets/images/filmbkgd.png")}
+            style={styles.reactLogo}
           />
         }
       >
@@ -197,9 +195,7 @@ export default function TabTwoScreen() {
         }
       >
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
-            Results
-          </ThemedText>
+          <ThemedText type="title">Results</ThemedText>
         </ThemedView>
         <ThemedText type="subtitle" style={styles.doneText}>
           Ranking Complete in {totalComparisons} comparisons!
@@ -253,9 +249,7 @@ export default function TabTwoScreen() {
         }
       >
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title" style={{ fontFamily: Fonts.rounded }}>
-            Rank
-          </ThemedText>
+          <ThemedText type="title">Rank</ThemedText>
         </ThemedView>
         <ThemedText style={styles.progress}>Loading...</ThemedText>
       </ParallaxScrollView>
@@ -330,6 +324,13 @@ const styles = StyleSheet.create({
     color: "#808080",
     bottom: -90,
     left: -35,
+    position: "absolute",
+  },
+  reactLogo: {
+    height: 290,
+    width: 290,
+    bottom: 0,
+    left: 0,
     position: "absolute",
   },
   titleContainer: {

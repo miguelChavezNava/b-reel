@@ -212,6 +212,13 @@ export default function TabTwoScreen() {
         {final_list.map((movie, index) => {
           const posterKey = getPosterKey(movie.Title);
           const poster = POSTERS[posterKey];
+          let rank = "";
+
+          if (index === 0) rank = "🥇";
+          if (index === 1) rank = "🥈";
+          if (index === 2) rank = "🥉";
+          if (index >= 3) rank = (index + 1).toString();
+
           return (
             <ThemedView key={index} style={styles.movieRow}>
               {poster && (
@@ -225,7 +232,7 @@ export default function TabTwoScreen() {
                 type="subtitle"
                 style={[styles.movieText, !poster && styles.movieTextCentered]}
               >
-                {movie.Title} by {movie.Director}, {movie.imdbRating}
+                {rank} : {movie.Title} by {movie.Director}, {movie.imdbRating}
               </ThemedText>
             </ThemedView>
           );

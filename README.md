@@ -9,4 +9,5 @@ This app was made with React for the user interface and coded with TypeScript, b
 This project was presented for a class and tested by 
 
 To run this project, download Expo Go from the app store, then scan this QR code to access the app:
-<img width="512" height="512" alt="eas-update" src="https://github.com/user-attachments/assets/f58535ba-dd03-46a3-ab8c-e33543997ca3" />
+
+<img width="256" height="256" alt="eas-update" src="https://github.com/user-attachments/assets/f58535ba-dd03-46a3-ab8c-e33543997ca3" />

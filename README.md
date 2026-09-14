@@ -14,4 +14,4 @@ To run this project, download Expo Go from the app store, then scan this QR code
 
 We learned much about app design and how apps are created using React and TypeScript, as well as how to use API calls to retrieve data, lightening the data load on the app. We gained insight as how different app UI components work and general design principles to make the app have a clean visual style.
 
-<img width="590" height="1278" alt="IMG_6295" src="https://github.com/user-attachments/assets/9e9c4109-c73b-48ce-8d84-0afcb80f1bc8" /> <img width="590" height="1278" alt="IMG_6296" src="https://github.com/user-attachments/assets/cc81cd2a-cb40-4b3c-84de-31b2bd9d525a" />
+<img width="295" height="639" alt="IMG_6295" src="https://github.com/user-attachments/assets/9e9c4109-c73b-48ce-8d84-0afcb80f1bc8" /> <img width="295" height="639" alt="IMG_6296" src="https://github.com/user-attachments/assets/cc81cd2a-cb40-4b3c-84de-31b2bd9d525a" />
